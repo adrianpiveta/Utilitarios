@@ -1,12 +1,8 @@
 import csv
 import openpyxl
+from openpyxl import Workbook
 
-from pandas._libs.algos import take_1d_bool_object
 
-with open('dados_industriais_escrito.csv', 'w', newline='') as file:
-    writer = csv.writer(file)
-
-    writer.writerow(["Pressao", "Temperatura", "Umidade"])
 def ordena(nomes):
     for x in range(0, len(nomes), 1):
         anterior = nomes[x]
@@ -19,16 +15,25 @@ def ordena(nomes):
     return nomes
 
 def to_csv(dados):
-    wb = openpyxl.Workbook()
-    wb.save('Classificacaop.xls')
-    with open(, 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Nome', 'Nota'])
+    wb = Workbook()
+    dest_filename = 'Classificacaop.xlsx'
+
+    ws1 = wb.active
+    ws1.title ='nome'
+    #ws2 = wb.active
+    #ws2.title='nota'
+    a=0
+
+    print(len(dados))
+    for row in range(1, len(dados)):
+        nome_escrita=""
         for dado in dados:
-            nome_escrita=""
             for nome in dado[0]:
-                nome_escrita += nome + " "
-            writer.writerow([nome_escrita, dado[-1]])
+                  nome_escrita += nome + " "
+        ws1.append([nome_escrita])
+            #print('adding one', a)
+            #ws2.append([dado[-1]])
+    wb.save(filename=dest_filename)
 
 
 def resultadoAux():
