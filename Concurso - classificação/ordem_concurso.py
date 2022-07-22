@@ -18,21 +18,31 @@ def to_csv(dados):
     wb = Workbook()
     dest_filename = 'Classificacaop.xlsx'
 
-    ws1 = wb.active
+    ws = wb.active
+    ws1 = wb.create_sheet(dest_filename, 0)
     ws1.title ='nome'
+
     #ws2 = wb.active
     #ws2.title='nota'
-    a=0
+    a=1
 
     print(len(dados))
-    for row in range(1, len(dados)):
-        nome_escrita=""
-        for dado in dados:
-            for nome in dado[0]:
-                  nome_escrita += nome + " "
-        ws1.append([nome_escrita])
-            #print('adding one', a)
-            #ws2.append([dado[-1]])
+    contador = 2
+
+    ws['A1'] = 'Nome'
+    ws['B1'] = 'Nota Geral'
+    for dado in dados:
+        nome_escrita = ""
+        for nome in dado[0]:
+              nome_escrita += nome + " "
+        #print('adding one', a)
+        #ws2.append([dado[-1]])
+        celula_nome = str('A'+str(contador))
+        celula_nota = str('B'+str(contador))
+        contador += 1
+        print(nome_escrita)
+        ws[celula_nome] = nome_escrita
+        ws[celula_nota] = dado[1]
     wb.save(filename=dest_filename)
 
 
