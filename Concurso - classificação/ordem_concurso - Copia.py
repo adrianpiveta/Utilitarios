@@ -1,4 +1,7 @@
+import csv
+import openpyxl
 from openpyxl import Workbook
+
 
 def ordena(nomes):
     for x in range(0, len(nomes), 1):
@@ -14,9 +17,15 @@ def ordena(nomes):
 def to_csv(dados):
     wb = Workbook()
     dest_filename = 'Classificacaop.xlsx'
+
     ws = wb.active
     ws1 = wb.create_sheet(dest_filename, 0)
     ws1.title ='nome'
+
+    #ws2 = wb.active
+    #ws2.title='nota'
+    a=1
+
     print(len(dados))
     contador = 2
 
@@ -26,6 +35,8 @@ def to_csv(dados):
         nome_escrita = ""
         for nome in dado[0]:
               nome_escrita += nome + " "
+        #print('adding one', a)
+        #ws2.append([dado[-1]])
         celula_nome = str('A'+str(contador))
         celula_nota = str('B'+str(contador))
         contador += 1
@@ -34,10 +45,12 @@ def to_csv(dados):
         ws[celula_nota] = dado[1]
     wb.save(filename=dest_filename)
 
+
 def resultadoAux():
     notas =[]
     nomes = []
     dict_nome={}
+    arquivo_ordenacao = {}
     arquivo = open("prefeiturar.txt", encoding='utf-8')
     for linha in arquivo.readlines():
         linha = linha.split(' ')
@@ -47,8 +60,41 @@ def resultadoAux():
                 nNome = [linha[1:len(linha)-9], float(linha[-9])]
                 nomes.append(nNome)
                 dict_nome[str(linha[1:len(linha)-9])] = linha[-9]
+                json ={'nome': str(linha[1:len(linha)-9]),
+                       'nota': float(linha[-9])}
+                arquivo_ordenacao+=json
         except:
             pass
+    #print(len(notas))
     to_csv(ordena(nomes))
+    #print(dict_nome)
+
+
+
+def resultado():
+    erros = 0
+    acertos = 0
+    notas =[]
+    registro =0
+    nomes = []
+    arquivo = open("prefeitura3.txt", encoding='utf-8')
+    for linha in arquivo.readlines():
+        linha = linha.split(' ')
+        print(str(len(linha)-10))
+        try:
+            registro += 1
+            if(float(linha[-11]) <= 99.00 and float(linha[-11]) >=10.00 ):
+                notas.append(linha[-11])
+                nNome = [[linha[1:(len(linha)-11)]], linha[-11]]
+                nomes.append(nNome)
+
+                acertos+=1
+        except:
+            erros+=1
+    #print(erros)
+    #print(acertos)
+    print(len(notas))
+    print(nomes)
+    print('Qiantidade de registros ', registro)
 
 resultadoAux()
