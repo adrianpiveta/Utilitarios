@@ -76,9 +76,7 @@ def resultadoAux():
                 arquivo_ordenacao+=json
         except:
             pass
-    #print(len(notas))
     to_csv(ordena(nomes))
-    #print(dict_nome)
 
 
 
