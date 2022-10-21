@@ -51,4 +51,4 @@ def resultadoAux():
             pass
     to_csv(ordena(nomes))
 
-resultadoAux()
+ordena(resultadoAux())
